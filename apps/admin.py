@@ -3,6 +3,10 @@ from .models import TeamMember,New_Update,Course_Category,Popular_Course,Student
 
 # Register your models here.
 
+admin.site.site_header = "EME Admin Panel"
+admin.site.site_title = "Eben-ezerimindeducation"
+admin.site.index_title = "Karibu Eben-ezerimindeducation Admin Site"
+
 admin.site.register(TeamMember)
 admin.site.register(New_Update)
 admin.site.register(Course_Category)
