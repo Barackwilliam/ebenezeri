@@ -102,7 +102,7 @@
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Categories</h6>
-                <h1 class="mb-5">Orodha ya Kozi Zetu</h1>
+                <h1 class="mb-5">List of Our Courses                </h1>
             </div>
             <div class="row g-3">
                 <div class="col-lg-7 col-md-6">
@@ -135,7 +135,7 @@
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-                <h1 class="mb-5">Kozi Maarufu</h1>
+                <h1 class="mb-5">Popular Courses</h1>
             </div>
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -146,8 +146,8 @@
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="{{course.image.url}}" alt="">
                             <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Soma Zaidi</a>
-                                <a href="{% url 'pay' %}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Jiunge Sasa</a>
+                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read more</a>
+                                <a href="{% url 'pay' %}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">
@@ -186,7 +186,7 @@
         <div class="container">
             <div class="text-center">
                 <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
-                <h1 class="mb-5">Nini wanafunzi wetu huzungumza kuhusu sisi..?</h1>
+                <h1 class="mb-5">What do our students say about us..?</h1>
             </div>
             <div class="owl-carousel testimonial-carousel position-relative">
 
@@ -223,7 +223,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, DSM, Tanzania</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Bunju "B", DSM, Tanzania</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>0678875485</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>ebenezerimindeducation@gmail.com</p>
                     <div class="d-flex pt-2">
@@ -240,7 +240,7 @@
                           {% for Gallery in course_gallery %}
                         <div class="col-4">
                             <img class="img-fluid bg-light p-1" src="{{Gallery.Course_image.url}}" alt="">
-                        </div>n
+                        </div>
                          
                         {% endfor %}
                               
@@ -248,7 +248,8 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <p>Stay updated with the latest news and insights. Subscribe to our newsletter for regular updates.</p>
+                    
                     <div class="position-relative mx-auto" style="max-width: 400px;">
                         <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>

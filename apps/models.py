@@ -96,7 +96,7 @@ class Direct_Service(models.Model):
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
     service_type = models.CharField(max_length=255)
-    phone_number = models.IntegerField(max_length=12)
+    phone_number = models.IntegerField()
 
     def __str__(self):
         return self.full_name
