@@ -16,6 +16,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,3 +131,35 @@ MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+
+
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Ebenezeri Site Admin",
+    "site_header": "Eme Dashboard",
+    "welcome_sign": "Karibu kwenye Dashboard ya EbenezeriMindeducation",
+    "copyright": "© 2025 EbenezeriMindeducation",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "user_avatar": None,
+    "search_model": "auth.User",
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        {"app": "EbenezeriMindeducation"},
+    ],
+}
+
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+    "navbar_fixed": True,
+    "sidebar_fixed": True,
+    "footer_fixed": False,
+    "show_ui_builder": True,
+}

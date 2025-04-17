@@ -211,29 +211,29 @@ Thank you for being part of this journey. May God bless you.</p>
 
     <!-- Team Start -->
     
-    <div class="container-fluid py-6 px-5">
-        <div class="text-center mx-auto mb-5" style="max-width: 600px;">
-            <h1 class="display-5 mb-0">The Institution's Team Members</h1>
-            <hr class="w-25 mx-auto bg-primary">
-        </div>
-
-        {% for member in team_members %}
-        <div class="row g-5">
-            <div class="col-lg-4">
-                <div class="team-item position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src="{{member.image.url}}" alt="">
-                    <div class="team-text w-100 position-absolute top-50     text-center bg-primary p-4">
-                        <h3 class="text-white">{{member.full_name}}</h3>
-                        <p class="text-white text-uppercase mb-0">{{member.designation}}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-           
-        </div>
+    <!-- Team Start -->
+<div class="container-fluid py-6 px-5">
+    <div class="text-center mx-auto mb-5" style="max-width: 600px;">
+        <h1 class="display-5 mb-0">The Institution's Team Members</h1>
+        <hr class="w-25 mx-auto bg-primary">
     </div>
 
-    <!-- Team End -->
+    <div class="row g-5">
+        {% for member in team_members %}
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="team-item position-relative overflow-hidden" style="height: 400px;">
+                <img class="img-fluid w-100 h-100 object-fit-cover" src="{{ member.image.url }}" alt="" style="object-fit: cover;">
+                <div class="team-text w-100 position-absolute bottom-0 text-center bg-primary p-3">
+                    <h3 class="mb-1" style="color:black">{{ member.full_name }}</h3>
+                    <p class="text-white text-uppercase mb-0">{{ member.designation }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Team End -->
+    
 
 
     <!-- Testimonial Start -->
@@ -262,17 +262,6 @@ Thank you for being part of this journey. May God bless you.</p>
                     {% endfor %}
 
 
-                    <!-- <div class="testimonial-item">
-                        <p class="fs-4 fw-normal mb-4"><i class="fa fa-quote-left text-primary me-3"></i>Jina langu ni Enock,  Kabla ya kukutana na huduma hii ya EME nilikumbwa na changamoto nyingi maishani. Japo nilienda kanisani, niliomba sana, nilitoa sadaka, nilifunga sana, nilisaidia wenye uhitaji,  au madhaifu yetu.</p>
-                        <div class="d-flex align-items-center">
-                            <img class="img-fluid rounded-circle" src="{% static 'img/shuhuda2.jpg' %}" alt="">
-                            <div class="ps-4">
-                                <h3>Jina kamili</h3>
-                                <span class="text-uppercase">Enock Mussa Bugal</span>
-                            </div>
-                        </div>
-                    </div> -->
-
 
 
                 </div>
@@ -285,48 +274,6 @@ Thank you for being part of this journey. May God bless you.</p>
     <!-- Blog Start -->
 
 
-    <!-- <div class="container-fluid py-6 px-5">
-        <div class="text-center mx-auto mb-5" style="max-width: 600px;">
-            <h1 class="display-5 mb-0">Taarifa Mpya</h1>
-            <hr class="w-25 mx-auto bg-primary">
-        </div> -->
-
-
-        
-        <!-- <div class="row g-5">
-            { for item in update }
-             -->
-            <!-- <div class="col-lg-4">
-                <div class="blog-item">
-                    <div class="position-relative overflow-hidden">
-                        <img class="img-fluid" src="{{item.image.url}}" alt="">
-                    </div>
-                    <div class="bg-secondary d-flex">
-                        <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                            <span>Latest</span>
-                            <h5 class="text-uppercase m-0">New</h5>
-                            <span>{{item.date}}</span>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center py-3 px-4">
-                            <div class="d-flex mb-2">
-                                <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>{{item.designation}}</small>
-                                <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>{{item.full_name}}</small>
-                            </div>
-                            <a class="h4" href="">{{item.content}}</a>
-                            <p>{{item.content}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-
-            <!-- { endfor }
-
-
-        </div>
-    </div>  -->
-    <!-- Blog End -->
-    
 
 
     <!-- Footer Start -->
@@ -368,9 +315,10 @@ Thank you for being part of this journey. May God bless you.</p>
             <div class="col-lg-3 col-md-6">
                 <h3 class="text-white mb-4">Get In Touch</h3>
                 <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>Bunju "B" Street, DSM, Tanzania</p>
-                <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>Bunju "B", DSM, Tanzania</p>
 
-                <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>0678875485</p>
+                <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+255678875485</p>
+                <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+255785214188</p>
+
             </div>
             <div class="col-lg-3 col-md-6">
                 <h3 class="text-white mb-4">Follow Us</h3>
