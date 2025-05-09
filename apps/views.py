@@ -5,6 +5,7 @@ from .forms import MyMessage,Direct_Message_sevice
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
+from .models import LogoLink
 
 
 # Home Page
@@ -12,11 +13,14 @@ def home(request):
     team_members = TeamMember.objects.all()
     update = New_Update.objects.all()
     user_testimonial = User_Testimonial.objects.all()
+    logo_link = LogoLink.objects.first() # Tunaleta moja tu
+
 
     context = {
         'team_members':team_members,
         'update':update,
-        'user_testimonial':user_testimonial
+        'user_testimonial':user_testimonial,
+        'logo_link': logo_link
     } 
     return render(request, 'index.html',context)
 
@@ -26,6 +30,8 @@ def service(request):
     service = Service.objects.all()
 
     form = Direct_Message_sevice()
+    logo_link = LogoLink.objects.first()  # Tunaleta moja tu
+
     ujumbe = ""
 
     if request.method == 'POST':
@@ -39,7 +45,8 @@ def service(request):
     context = {
         'form':form,
         'ujumbe':ujumbe,
-        'service':service
+        'service':service,
+        'logo_link': logo_link
     }
 
     return render(request, 'service.html',context)
@@ -47,6 +54,8 @@ def service(request):
 # Warsha za Kiroho
 def contact(request):
     form = MyMessage(request.POST)
+    logo_link = LogoLink.objects.first()  # Tunaleta moja tu
+
     ujumbe = ""
 
 
@@ -60,7 +69,8 @@ def contact(request):
       
     context = {
         'form':form,
-        'ujumbe':ujumbe
+        'ujumbe':ujumbe,
+        'logo_link': logo_link
     }
     return render(request, 'contact.html',context)
 
@@ -69,11 +79,15 @@ def contact(request):
 
 # Ushauri wa Kiroho
 def counseling(request):
-    return render(request, 'counseling.html')
+    logo_link = LogoLink.objects.first()  # Tunaleta moja tu
+
+    return render(request, 'counseling.html',{'logo_link': logo_link})
 
 # Ushuhuda wa Wateja
 def About(request):
-    return render(request, 'about.html')
+    logo_link = LogoLink.objects.first()  # Tunaleta moja tu
+
+    return render(request, 'about.html',{'logo_link': logo_link})
 
 
 @login_required(login_url='login')
@@ -82,12 +96,15 @@ def kozi(request):
     popular_course = Popular_Course.objects.all()
     student_testimonial = Student_testimonial.objects.all()
     course_gallery = Course_gallery.objects.all()
+    logo_link = LogoLink.objects.first()  # Tunaleta moja tu
+
 
     context = {
         'course_category':course_category,
         'popular_course':popular_course,
         'student_testimonial':student_testimonial,
-        'course_gallery':course_gallery
+        'course_gallery':course_gallery,
+        'logo_link': logo_link
 
     }
 
@@ -137,7 +154,9 @@ def logout(request):
 
 @login_required(login_url='login')
 def pay(request):
-    return render(request,'pay.html')
+    logo_link = LogoLink.objects.first()  # Tunaleta moja tu
+
+    return render(request,'pay.html',{'logo_link': logo_link})
 
 
 
@@ -155,3 +174,8 @@ def login(request):
         return redirect(login)
     else:
         return render(request, 'login.html')
+
+
+
+def Debt(request):
+    return render(request, 'PayTrack.html')

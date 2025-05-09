@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hosting Payment Dashboard</title>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+      color: #00ffea;
+      font-family: 'Roboto Mono', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: rgba(10,10,10,0.9);
+      border: 2px solid #00ffea;
+      border-radius: 15px;
+      padding: 2rem 3rem;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 20px #00ffea;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: #00fff7;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 10px #00fff7;
+    }
+    .info p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+    .highlight {
+      font-weight: 700;
+      color: #ff4d4d;
+      text-shadow: 0 0 8px #ff4d4d;
+    }
+    #countdown {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      margin: 1.5rem 0;
+      color: #00ffea;
+      text-shadow: 0 0 15px #00ffea;
+    }
+    #warning {
+      color: #ff6666;
+      font-weight: 700;
+      margin: 1rem 0;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% {opacity: 1;}
+      50% {opacity: 0.6;}
+    }
+    button {
+      background: linear-gradient(45deg, #00ffea, #008080);
+      border: none;
+      border-radius: 30px;
+      padding: 0.8rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #001f1f;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffea;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(45deg, #008080, #00ffea);
+      color: #e0ffff;
+    }
+    #alertBox {
+      margin-top: 1rem;
+      background: #002222;
+      border: 2px solid #00ffea;
+      border-radius: 12px;
+      padding: 1rem;
+      color: #00ffea;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 0 15px #00ffea;
+      display: none;
+    }
+    #history {
+      margin-top: 1.5rem;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    #history ul {
+      padding-left: 1rem;
+      list-style: square;
+      color: #00ffea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>HOSTING SERVICE TRACKING SYSTEM</h2>
+    <div class="info">
+      <p>Service started on: <span id="startDate" class="highlight"></span></p>
+      <p>Current billing cycle: <span id="currentCycle" class="highlight"></span></p>
+      <p>Days used this cycle: <span id="daysUsed" class="highlight"></span></p>
+      <p>Debt this cycle: <span id="cycleDebt" class="highlight"></span></p>
+      <p>Total debt (all cycles): <span id="totalDebt" class="highlight"></span></p>
+    </div>
+    <div id="countdown">Hours: 00 : Minutes: 00 : Seconds: 00</div>
+    <div id="warning" style="display:none;">
+      Warning: Your website will be suspended soon if payment is not made.
+    </div>
+    <button id="payNowBtn">Pay Now</button>
+    <div id="alertBox"></div>
+    <div id="history">
+      <h3>Payment History:</h3>
+      <ul id="paymentList"></ul>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    const STORAGE_KEYS = {
+      START_DATE: 'hostingServiceStartDate',
+      ALERT_SHOWN: 'hostingPaymentAlertShown',
+      PAYMENTS: 'hostingPaymentHistory'
+    };
+
+    const chargePerCycle = 8.00;
+    const cycleLengthDays = 30;
+    const warningStartDay = 25;
+
+    function loadStartDate() {
+      let stored = localStorage.getItem(STORAGE_KEYS.START_DATE);
+      if (stored) {
+        let d = new Date(stored);
+        if (!isNaN(d)) return d;
+      }
+      const defaultDate = new Date('2025-04-22T00:00:00Z');
+      localStorage.setItem(STORAGE_KEYS.START_DATE, defaultDate.toISOString());
+      return defaultDate;
+    }
+
+    function daysBetween(d1, d2) {
+      const utc1 = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+      const utc2 = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+      return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
+    }
+
+    function pad(n) {
+      return n.toString().padStart(2, '0');
+    }
+
+    function updateCountdown(startDate) {
+      const now = new Date();
+      let diffMs = now - startDate;
+      if (diffMs < 0) diffMs = 0;
+
+      let totalSeconds = Math.floor(diffMs / 1000);
+      let hours = Math.floor(totalSeconds / 3600);
+      let minutes = Math.floor((totalSeconds % 3600) / 60);
+      let seconds = totalSeconds % 60;
+
+      document.getElementById('countdown').textContent =
+        `Hours: ${pad(hours)} : Minutes: ${pad(minutes)} : Seconds: ${pad(seconds)}`;
+    }
+
+    function render() {
+      const startDate = loadStartDate();
+      const now = new Date();
+      const totalDaysUsed = daysBetween(startDate, now);
+      const currentCycle = Math.floor(totalDaysUsed / cycleLengthDays) + 1;
+      const daysUsedThisCycle = totalDaysUsed % cycleLengthDays;
+      const cycleDebt = daysUsedThisCycle > 0 ? chargePerCycle : 0;
+      const payments = JSON.parse(localStorage.getItem(STORAGE_KEYS.PAYMENTS) || '[]');
+      const paidCycles = payments.map(payment => {
+        return Math.floor(daysBetween(startDate, new Date(payment.date)) / cycleLengthDays) + 1;
+      });
+      const uniquePaidCycles = [...new Set(paidCycles)];
+      const totalDebt = (currentCycle - 1 - uniquePaidCycles.length) * chargePerCycle + cycleDebt;
+
+      document.getElementById('startDate').textContent = startDate.toDateString();
+      document.getElementById('currentCycle').textContent = currentCycle;
+      document.getElementById('daysUsed').textContent = daysUsedThisCycle;
+      document.getElementById('cycleDebt').textContent = `$${cycleDebt.toFixed(2)}`;
+      document.getElementById('totalDebt').textContent = `$${totalDebt.toFixed(2)}`;
+
+      document.getElementById('warning').style.display = daysUsedThisCycle >= warningStartDay ? 'block' : 'none';
+      updateCountdown(startDate);
+      renderPaymentHistory();
+    }
+
+    function renderPaymentHistory() {
+      const paymentList = document.getElementById('paymentList');
+      paymentList.innerHTML = '';
+      const payments = JSON.parse(localStorage.getItem(STORAGE_KEYS.PAYMENTS) || '[]');
+      payments.forEach((entry, index) => {
+        const li = document.createElement('li');
+        li.textContent = `#${index + 1} - $${entry.amount.toFixed(2)} Must pay from ${new Date(entry.date).toLocaleString()}`;
+        paymentList.appendChild(li);
+      });
+    }
+
+    function payNow() {
+      const now = new Date();
+      const startDate = loadStartDate();
+      const totalDaysUsed = daysBetween(startDate, now);
+      const currentCycle = Math.floor(totalDaysUsed / cycleLengthDays) + 1;
+
+      let payments = JSON.parse(localStorage.getItem(STORAGE_KEYS.PAYMENTS) || '[]');
+
+      // Angalia kama tayari kuna malipo kwa cycle hii
+      const alreadyPaid = payments.some(payment => {
+        const paymentCycle = Math.floor(daysBetween(startDate, new Date(payment.date)) / cycleLengthDays) + 1;
+        return paymentCycle === currentCycle;
+      });
+
+      const alertBox = document.getElementById('alertBox');
+      if (alreadyPaid) {
+        alertBox.textContent = "Payment for this cycle has already Requested System wait for confirmation.";
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      payments.push({
+        amount: chargePerCycle,
+        date: now.toISOString()
+      });
+
+      localStorage.setItem(STORAGE_KEYS.PAYMENTS, JSON.stringify(payments));
+
+      alertBox.textContent = "Payment initiated successfully Contact Your Developer for completion.";
+      alertBox.style.display = 'block';
+
+      render();
+    }
+
+    function init() {
+      render();
+      document.getElementById('payNowBtn').addEventListener('click', payNow);
+      setInterval(render, 1000);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</body>
+</html>

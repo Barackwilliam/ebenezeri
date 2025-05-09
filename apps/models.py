@@ -12,8 +12,7 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return self.full_name
-    
-
+   
 class New_Update(models.Model):
     DESIGNATION_CHOICE = [
         ('Mwenyekiti','Mwenyekiti'),
@@ -101,3 +100,11 @@ class Direct_Service(models.Model):
     def __str__(self):
         return self.full_name
     
+
+
+
+class LogoLink(models.Model):
+    show_admin_link = models.BooleanField(default=True)  # Kama ni True, inaonyesha link ya admin
+
+    def __str__(self):
+        return f"Logo Link (Admin: {self.show_admin_link})"

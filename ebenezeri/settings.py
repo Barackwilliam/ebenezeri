@@ -44,7 +44,7 @@ ROOT_URLCONF = 'ebenezeri.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'apps', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'apps','templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,16 +143,36 @@ JAZZMIN_SETTINGS = {
     "site_title": "Ebenezeri Site Admin",
     "site_header": "Eme Dashboard",
     "welcome_sign": "Karibu kwenye Dashboard ya EbenezeriMindeducation",
+    "custom_css": "custom_admin.css",
+
     "copyright": "© 2025 EbenezeriMindeducation",
     "show_sidebar": True,
     "navigation_expanded": True,
     "user_avatar": None,
     "search_model": "auth.User",
+
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.User"},
         {"app": "EbenezeriMindeducation"},
+        
     ],
+
+      # Inject marquee message as a custom link (unaweza iona juu ya models)
+    # "custom_links": {
+    #     "auth": [  # unaweza kubadilisha 'auth' kwa model yoyote
+    #         {
+    #             "name": """
+    #                 <marquee behavior='scroll' direction='left' style='color:red; font-weight:bold;'>
+    #                     🔔 Ujumbe: Hakikisha taarifa zako ni sahihi kabla ya kuhifadhi kwenye mfumo wa NyumbaChap!
+    #                 </marquee>
+    #             """,
+    #             "url": "#",
+    #             "icon": "fas fa-exclamation-circle",
+    #             "permissions": ["auth.view_user"],  # au toa permissions kabisa
+    #         }
+    #     ]
+    # },
 }
 
 
@@ -163,3 +183,6 @@ JAZZMIN_UI_TWEAKS = {
     "footer_fixed": False,
     "show_ui_builder": True,
 }
+
+
+ 

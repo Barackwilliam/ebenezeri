@@ -15,5 +15,6 @@ urlpatterns = [
     path('Register/', views.Register, name='Register'),
     path('login/', views.login, name='login'),
     path('pay/', views.pay, name='pay'),
+    path('Debt/', views.Debt, name='Debt'),
    
 ]

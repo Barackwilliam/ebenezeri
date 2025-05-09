@@ -1,0 +1,13 @@
+/* custom_admin.css */
+.jazzmin-welcome {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: marquee 10s linear infinite;
+    color: red;
+    font-weight: bold;
+}
+
+@keyframes marquee {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
